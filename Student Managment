@@ -1,0 +1,229 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Student {
+    private int prn;
+    private String name;
+    private String dob;
+    private float marks;
+
+    public Student(int prn, String name, String dob, float marks) {
+        this.prn = prn;
+        this.name = name;
+        this.dob = dob;
+        this.marks = marks;
+    }
+
+    public int getPrn() {
+        return prn;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public float getMarks() {
+        return marks;
+    }
+
+    public void setMarks(float marks) {
+        this.marks = marks;
+    }
+
+    @Override
+    public String toString() {
+        return "PRN: " + prn + ", Name: " + name + ", DOB: " + dob + ", Marks: " + marks;
+    }
+}
+
+public class StudentManagementSystem {
+    private ArrayList<Student> students = new ArrayList<>();
+
+    public void addStudent() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter PRN: ");
+        int prn = scanner.nextInt();
+
+        System.out.print("Enter Name: ");
+        String name = scanner.next();
+
+        System.out.print("Enter DOB (dd/mm/yyyy): ");
+        String dob = scanner.next();
+
+        System.out.print("Enter Marks: ");
+        float marks = scanner.nextFloat();
+
+        Student student = new Student(prn, name, dob, marks);
+        students.add(student);
+
+        System.out.println("Student added successfully!");
+    }
+
+    public void displayStudents() {
+        if (students.size() == 0) {
+            System.out.println("No students to display!");
+        } else {
+            for (Student student : students) {
+                System.out.println(student.toString());
+            }
+        }
+    }
+
+    public void searchStudentByPrn() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter PRN to search: ");
+        int prn = scanner.nextInt();
+
+        int index = -1;
+        for (int i = 0; i < students.size(); i++) {
+            if (students.get(i).getPrn() == prn) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index == -1) {
+            System.out.println("Student with PRN " + prn + " not found!");
+        } else {
+            System.out.println(students.get(index).toString());
+        }
+    }
+
+    public void searchStudentByName() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter Name to search: ");
+        String name = scanner.next();
+
+        int index = -1;
+        for (int i = 0; i < students.size(); i++) {
+            if (students.get(i).getName().equalsIgnoreCase(name)) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index == -1) {
+            System.out.println("Student with Name " + name + " not found!");
+        } else {
+            System.out.println(students.get(index).toString());
+        }
+    }
+
+    public void searchStudentByPosition() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter position to search: ");
+        int position = scanner.nextInt();
+
+        if (position >= students.size()) {
+            System.out.println("Invalid position!");
+        } else {
+            System.out.println(students.get(position).toString());
+        }
+    }
+
+    public void updateStudent() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter PRN to update: ");
+        int prn = scanner.nextInt();
+
+        int index = -1;
+        for (int i = 0; i < students.size(); i++) {
+            if (students.get(i).getPrn() == prn) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index == -1) {
+            System.out.println("Student with PRN " + prn + " not found!");
+        } else {
+            System.out.print("Enter new marks: ");
+            float marks = scanner.nextFloat();
+
+            students.get(index).setMarks(marks);
+            System.out.println("Student updated successfully!");
+        }
+    }
+
+    public void deleteStudent() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter PRN to delete: ");
+        int prn = scanner.nextInt();
+
+        int index = -1;
+        for (int i = 0; i < students.size(); i++) {
+            if (students.get(i).getPrn() == prn) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index == -1) {
+            System.out.println("Student with PRN " + prn + " not found!");
+        } else {
+            students.remove(index);
+            System.out.println("Student deleted successfully!");
+        }
+    }
+
+    public static void main(String[] args) {
+        StudentManagementSystem system = new StudentManagementSystem();
+
+        Scanner scanner = new Scanner(System.in);
+        int choice = 0;
+
+        while (choice != 7) {
+            System.out.println("Managing of Students");
+            System.out.println("1. Add Student");
+            System.out.println("2. Display Students");
+            System.out.println("3. Search by PRN");
+            System.out.println("4. Search by Name");
+            System.out.println("5. Search by Position");
+            System.out.println("6. Update Student");
+            System.out.println("7. Delete Student");
+            System.out.println("8. Exit");
+
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    system.addStudent();
+                    break;
+                case 2:
+                    system.displayStudents();
+                    break;
+                case 3:
+                    system.searchStudentByPrn();
+                    break;
+                case 4:
+                    system.searchStudentByName();
+                    break;
+                case 5:
+                    system.searchStudentByPosition();
+                    break;
+                case 6:
+                    system.updateStudent();
+                    break;
+                case 7:
+                    system.deleteStudent();
+                    break;
+                case 8:
+                    System.out.println("Exiting...");
+                    break;
+                default:
+                    System.out.println("Invalid choice!");
+                    break;
+            }
+        }
+    }
+}
